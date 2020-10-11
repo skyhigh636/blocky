@@ -1,6 +1,6 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     music.pewPew.play()
-    dart = sprites.createProjectileFromSprite(img`
+    lime = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -75,11 +75,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     500,
     false
     )
+    animation.runMovementAnimation(
+    lime,
+    animation.animationPresets(animation.bobbing),
+    100,
+    false
+    )
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    dart.destroy()
+    lime.destroy()
     bogey.destroy()
-    dart.startEffect(effects.fire)
+    lime.startEffect(effects.fire)
     bogey.startEffect(effects.fire)
     info.changeScoreBy(1)
 })
@@ -89,7 +95,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     music.powerDown.play()
 })
 let bogey: Sprite = null
-let dart: Sprite = null
+let lime: Sprite = null
 let blocky: Sprite = null
 blocky = sprites.create(img`
     8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
@@ -112,7 +118,8 @@ blocky = sprites.create(img`
 blocky.setFlag(SpriteFlag.StayInScreen, true)
 info.setLife(3)
 controller.moveSprite(blocky, 200, 200)
-music.playMelody("C F E D G E G E ", 118)
+music.playMelody("C F E D G E D A ", 120)
+music.playMelody("C F E D G E D A ", 355)
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555555f
     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555555555
@@ -236,10 +243,21 @@ scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     `)
 forever(function () {
-    music.playMelody("F G A - F D F G ", 120)
-    while (false) {
-        game.over(false)
-    }
+    music.playMelody("F G A - F D F G ", 307)
+    music.playMelody("F G A E F D F G ", 333)
+    music.playMelody("F G A E F G - G ", 329)
+    music.playMelody("F G F E F G F E ", 333)
+    music.playMelody("D B F E A F A F ", 307)
+    music.playMelody("D C F E A F A F ", 396)
+    music.playMelody("D C G E A F G F ", 396)
+    music.playMelody("D C G E A F G B ", 396)
+    music.playMelody("F E D E A F C F ", 396)
+    music.playMelody("E F - - E - F - ", 344)
+    music.playMelody("E F G D E - F - ", 344)
+    music.playMelody("E F G D E G F A ", 344)
+    music.playMelody("E F B G E G C F ", 344)
+    music.playMelody("E F B G E C D A ", 322)
+    music.playMelody("F D - C E - E G ", 315)
 })
 game.onUpdateInterval(500, function () {
     bogey = sprites.create(img`
