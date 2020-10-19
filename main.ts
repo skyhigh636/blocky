@@ -18,6 +18,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, blocky, 200, 0)
+    lime.setPosition(blocky.x, blocky.y)
+    lime.setVelocity(200, 0)
+    lime.setFlag(SpriteFlag.AutoDestroy, true)
     animation.runImageAnimation(
     blocky,
     [img`
@@ -83,11 +86,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    lime.destroy()
-    bogey.destroy()
-    lime.startEffect(effects.fire)
-    bogey.startEffect(effects.fire)
     info.changeScoreBy(1)
+    lime.destroy(effects.spray, 100)
+    bogey.destroy(effects.spray, 100)
+    lime.setFlag(SpriteFlag.Invisible, true)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -242,24 +244,7 @@ scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     `)
-forever(function () {
-    music.playMelody("F G A - F D F G ", 307)
-    music.playMelody("F G A E F D F G ", 333)
-    music.playMelody("F G A E F G - G ", 329)
-    music.playMelody("F G F E F G F E ", 333)
-    music.playMelody("D B F E A F A F ", 307)
-    music.playMelody("D C F E A F A F ", 396)
-    music.playMelody("D C G E A F G F ", 396)
-    music.playMelody("D C G E A F G B ", 396)
-    music.playMelody("F E D E A F C F ", 396)
-    music.playMelody("E F - - E - F - ", 344)
-    music.playMelody("E F G D E - F - ", 344)
-    music.playMelody("E F G D E G F A ", 344)
-    music.playMelody("E F B G E G C F ", 344)
-    music.playMelody("E F B G E C D A ", 322)
-    music.playMelody("F D - C E - E G ", 315)
-})
-game.onUpdateInterval(500, function () {
+game.onUpdateInterval(1000, function () {
     bogey = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -278,6 +263,25 @@ game.onUpdateInterval(500, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
+    bogey.x = scene.screenWidth() - bogey.width / 2
+    bogey.y = randint(bogey.height / 2, scene.screenHeight() - bogey.height / 2)
     bogey.setVelocity(-100, 0)
-    bogey.setPosition(180, randint(0, 120))
+    bogey.setFlag(SpriteFlag.AutoDestroy, true)
+})
+forever(function () {
+    music.playMelody("F G A - F D F G ", 307)
+    music.playMelody("F G A E F D F G ", 333)
+    music.playMelody("F G A E F G - G ", 329)
+    music.playMelody("F G F E F G F E ", 333)
+    music.playMelody("D B F E A F A F ", 307)
+    music.playMelody("D C F E A F A F ", 396)
+    music.playMelody("D C G E A F G F ", 396)
+    music.playMelody("D C G E A F G B ", 396)
+    music.playMelody("F E D E A F C F ", 396)
+    music.playMelody("E F - - E - F - ", 344)
+    music.playMelody("E F G D E - F - ", 344)
+    music.playMelody("E F G D E G F A ", 344)
+    music.playMelody("E F B G E G C F ", 344)
+    music.playMelody("E F B G E C D A ", 322)
+    music.playMelody("F D - C E - E G ", 315)
 })
